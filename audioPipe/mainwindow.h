@@ -16,10 +16,11 @@ public:
     ~MainWindow();
 
 public slots:
-    //
+    void openFile();
 
 private:
     Ui::MainWindow *ui;
+    void configure();
 };
 
 #endif // MAINWINDOW_H
