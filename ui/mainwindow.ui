@@ -125,8 +125,15 @@
               <property name="spacing">
                <number>0</number>
               </property>
-              <item row="0" column="1">
-               <widget class="QTableWidget" name="tableWidget"/>
+              <item row="0" column="0">
+               <widget class="QTextEdit" name="textEdit">
+                <property name="enabled">
+                 <bool>true</bool>
+                </property>
+                <property name="readOnly">
+                 <bool>true</bool>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
@@ -159,7 +166,7 @@
      <x>0</x>
      <y>0</y>
      <width>579</width>
-     <height>18</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -207,7 +214,7 @@
   </action>
   <action name="actionOpen">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/icons/images/open_file.png</normaloff>:/icons/images/open_file.png</iconset>
    </property>
    <property name="text">
@@ -216,7 +223,7 @@
   </action>
   <action name="actionExit">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/icons/images/application_exit.png</normaloff>:/icons/images/application_exit.png</iconset>
    </property>
    <property name="text">
@@ -225,7 +232,7 @@
   </action>
   <action name="actionZoomIn">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/icons/images/zoom_in_icon.png</normaloff>:/icons/images/zoom_in_icon.png</iconset>
    </property>
    <property name="text">
@@ -234,7 +241,7 @@
   </action>
   <action name="actionZoomOut">
    <property name="icon">
-    <iconset resource="icons.qrc">
+    <iconset resource="../resources/icons.qrc">
      <normaloff>:/icons/images/zoom_out_icon.png</normaloff>:/icons/images/zoom_out_icon.png</iconset>
    </property>
    <property name="text">
@@ -244,7 +251,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="icons.qrc"/>
+  <include location="../resources/icons.qrc"/>
  </resources>
  <connections>
   <connection>
