@@ -153,12 +153,24 @@
              <layout class="QGridLayout" name="gridLayout_6">
               <item row="1" column="0">
                <widget class="QGroupBox" name="groupBox_2">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="title">
                  <string>Format Chunk</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_8">
                  <item row="1" column="1">
-                  <widget class="QLabel" name="label_14">
+                  <widget class="QLabel" name="label_format_spacer_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
@@ -166,13 +178,32 @@
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_22">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Format ChunkID:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLabel" name="label_2">
+                  <widget class="QLabel" name="label_format_spacer_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
@@ -180,27 +211,61 @@
                  </item>
                  <item row="5" column="0">
                   <widget class="QLabel" name="label_11">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Sample Rate:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="2">
-                  <widget class="QLabel" name="label_20">
+                  <widget class="QLabel" name="label_format_value_1">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="4" column="1">
-                  <widget class="QLabel" name="label_16">
+                  <widget class="QLabel" name="label_format_spacer_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
                   </widget>
                  </item>
                  <item row="6" column="1">
-                  <widget class="QLabel" name="label_18">
+                  <widget class="QLabel" name="label_format_spacer_6">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
@@ -208,6 +273,19 @@
                  </item>
                  <item row="6" column="0">
                   <widget class="QLabel" name="label_12">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Byte Rate:</string>
                    </property>
@@ -215,20 +293,45 @@
                  </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_23">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Audio Format:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="5" column="1">
-                  <widget class="QLabel" name="label_17">
+                  <widget class="QLabel" name="label_format_spacer_5">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QLabel" name="label_15">
+                  <widget class="QLabel" name="label_format_spacer_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
@@ -236,27 +339,68 @@
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_8">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Format Chunk Size:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="7" column="1">
-                  <widget class="QLabel" name="label_28">
+                  <widget class="QLabel" name="label_format_spacer_7">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>*invisible*</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QLabel" name="label_21">
+                  <widget class="QLabel" name="label_format_value_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="4" column="0">
                   <widget class="QLabel" name="label_10">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Number of Channels:</string>
                    </property>
@@ -264,43 +408,101 @@
                  </item>
                  <item row="7" column="0">
                   <widget class="QLabel" name="label_13">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Block Align:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="3" column="2">
-                  <widget class="QLabel" name="label_25">
+                  <widget class="QLabel" name="label_format_value_3">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="4" column="2">
-                  <widget class="QLabel" name="label_24">
+                  <widget class="QLabel" name="label_format_value_4">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="5" column="2">
-                  <widget class="QLabel" name="label_26">
+                  <widget class="QLabel" name="label_format_value_5">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="6" column="2">
-                  <widget class="QLabel" name="label_27">
+                  <widget class="QLabel" name="label_format_value_6">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
                  <item row="7" column="2">
-                  <widget class="QLabel" name="label_19">
+                  <widget class="QLabel" name="label_format_value_7">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
                    <property name="text">
-                    <string>*set later*</string>
+                    <string/>
                    </property>
                   </widget>
                  </item>
@@ -309,6 +511,12 @@
               </item>
               <item row="2" column="0">
                <widget class="QGroupBox" name="groupBox">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="autoFillBackground">
                  <bool>false</bool>
                 </property>
@@ -319,6 +527,12 @@
               </item>
               <item row="0" column="0">
                <widget class="QGroupBox" name="groupBox_3">
+                <property name="font">
+                 <font>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
                 <property name="title">
                  <string>RIFF Chunk</string>
                 </property>
@@ -331,18 +545,34 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>ChunkID: </string>
                    </property>
                   </widget>
                  </item>
                  <item row="0" column="2">
-                  <widget class="QLabel" name="label_3">
+                  <widget class="QLabel" name="label_riff_value_1">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="text">
                     <string>*set later*</string>
@@ -357,18 +587,31 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Chunk Size:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLabel" name="label_5">
+                  <widget class="QLabel" name="label_riff_spacer_1">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
                    </property>
                    <property name="text">
                     <string>*invisible*</string>
@@ -376,12 +619,21 @@
                   </widget>
                  </item>
                  <item row="1" column="2">
-                  <widget class="QLabel" name="label_6">
+                  <widget class="QLabel" name="label_riff_value_2">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="text">
                     <string>*set later*</string>
@@ -396,18 +648,34 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
                    <property name="text">
                     <string>Format:</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="2">
-                  <widget class="QLabel" name="label_9">
+                  <widget class="QLabel" name="label_riff_value_3">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
                    </property>
                    <property name="text">
                     <string>*set later*</string>

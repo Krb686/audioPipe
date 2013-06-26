@@ -26,7 +26,7 @@ private:
     void configure();
     void createGraphics();
     void loadHexData(QByteArray array, int bytes);
-    void loadFormatChunks();
+    void loadFormatChunks(QByteArray array);
     void loadSignalGraph();
 
 

@@ -35,15 +35,28 @@ void MainWindow::configure(){
 
     QObject::connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
 
-    ui->label_5->setText("");
+    ui->label_riff_spacer_1->setText("");
+    ui->label_riff_value_1->setText("");
+    ui->label_riff_value_2->setText("");
+    ui->label_riff_value_3->setText("");
 
-    ui->label_3->setText("");
-    ui->label_6->setText("");
-    ui->label_9->setText("");
+
+    ui->label_format_spacer_1->setText("");
+    ui->label_format_spacer_2->setText("");
+    ui->label_format_spacer_3->setText("");
+    ui->label_format_spacer_4->setText("");
+    ui->label_format_spacer_5->setText("");
+    ui->label_format_spacer_6->setText("");
+    ui->label_format_spacer_7->setText("");
+
+
 }
 
 void MainWindow::openFile()
 {
+    const QString RIFF = QString("52494646");
+    const QString WAVE = QString("57415645");
+
     int size;
     char *memblock;
     QString contentType, fileType;
@@ -68,10 +81,9 @@ void MainWindow::openFile()
 
 
     contentType.append(array.mid(0, 8));
-    if(contentType == "52494646")
+    if(contentType == RIFF)
     {
         qDebug() << "Content Type: RIFF";
-        contentType = "RIFF";
     }
     else
     {
@@ -79,10 +91,9 @@ void MainWindow::openFile()
     }
 
     fileType.append(array.mid(16, 8));
-    if(fileType == "57415645")
+    if(fileType == WAVE)
     {
         qDebug() << "File Type: WAVE";
-        fileType = "WAVE";
 
         if(size > 10000)
         {
@@ -161,12 +172,19 @@ void MainWindow::loadHexData(QByteArray array, int bytes)
 
     qDebug() << "done making string";
     ui->textEdit->setText(s);
-    createGraphics();
+    loadFormatChunks(array);
 }
 
-void MainWindow::loadFormatChunks()
+void MainWindow::loadFormatChunks(QByteArray array)
 {
-    //
+
+    QString riffChunkId = QString(array.mid(0,2) + " " + array.mid(2, 2) + " " + array.mid(4, 2) + " " + array.mid(6, 2));
+    ui->label_riff_value_1->setText(riffChunkId);
+
+    //QString riffChunkSize = QString(array.mid(8, 2))
+
+    createGraphics();
+
 }
 
 void MainWindow::createGraphics()
