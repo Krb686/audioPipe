@@ -24,6 +24,13 @@ public slots:
 private:
     Ui::MainWindow *ui;
     void configure();
+    void createGraphics();
+    void loadHexData(QByteArray array, int bytes);
+    void loadFormatChunks();
+    void loadSignalGraph();
+
+
+
 };
 
 #endif // MAINWINDOW_H
