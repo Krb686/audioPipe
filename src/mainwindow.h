@@ -24,10 +24,9 @@ public slots:
 private:
     Ui::MainWindow *ui;
     void configure();
-    void createGraphics();
     void loadHexData(QByteArray array, int bytes);
     void loadFormatChunks(QByteArray array);
-    void loadSignalGraph();
+    void loadSignalGraph(QByteArray array);
 
 
 

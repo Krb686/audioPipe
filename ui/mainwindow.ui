@@ -163,6 +163,33 @@
                  <string>Format Chunk</string>
                 </property>
                 <layout class="QGridLayout" name="gridLayout_8">
+                 <item row="8" column="1">
+                  <widget class="QLabel" name="label_3">
+                   <property name="font">
+                    <font>
+                     <weight>75</weight>
+                     <bold>true</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>*invisible*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="0">
+                  <widget class="QLabel" name="label_2">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Bits Per Sample:</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="1" column="1">
                   <widget class="QLabel" name="label_format_spacer_2">
                    <property name="sizePolicy">
@@ -229,7 +256,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="0" column="2">
+                 <item row="0" column="3">
                   <widget class="QLabel" name="label_format_value_1">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -370,7 +397,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="1" column="2">
+                 <item row="1" column="3">
                   <widget class="QLabel" name="label_format_value_2">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -426,7 +453,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="3" column="2">
+                 <item row="3" column="3">
                   <widget class="QLabel" name="label_format_value_3">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -442,7 +469,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="4" column="2">
+                 <item row="4" column="3">
                   <widget class="QLabel" name="label_format_value_4">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -458,7 +485,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="5" column="2">
+                 <item row="5" column="3">
                   <widget class="QLabel" name="label_format_value_5">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -474,7 +501,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="6" column="2">
+                 <item row="6" column="3">
                   <widget class="QLabel" name="label_format_value_6">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -490,13 +517,29 @@
                    </property>
                   </widget>
                  </item>
-                 <item row="7" column="2">
+                 <item row="7" column="3">
                   <widget class="QLabel" name="label_format_value_7">
                    <property name="sizePolicy">
                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::StyledPanel</enum>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="8" column="3">
+                  <widget class="QLabel" name="label_format_value_8">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::StyledPanel</enum>
@@ -523,6 +566,65 @@
                 <property name="title">
                  <string>Data Chunk</string>
                 </property>
+                <layout class="QGridLayout" name="gridLayout_9">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_5">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Data Chunk ID:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_9">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="label_6">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <italic>true</italic>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>Data Chunk Size:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLabel" name="label_14">
+                   <property name="font">
+                    <font>
+                     <weight>50</weight>
+                     <bold>false</bold>
+                    </font>
+                   </property>
+                   <property name="text">
+                    <string>TextLabel</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
               <item row="0" column="0">

@@ -183,28 +183,72 @@ void MainWindow::loadFormatChunks(QByteArray array)
 
     //QString riffChunkSize = QString(array.mid(8, 2))
 
-    createGraphics();
+    loadSignalGraph(array);
 
 }
 
-void MainWindow::createGraphics()
+void MainWindow::loadSignalGraph(QByteArray array)
 {
     //Create scene with new keyword from heap so it does not disappear from the stack
     QGraphicsScene *scene = new QGraphicsScene();
 
     QPen pen = QPen(Qt::DashLine);
 
+    //Draw axis
     scene->addLine(-100, 0, 100, 0, pen);
     scene->addLine(0, -100, 0, 100, pen);
 
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->show();
+
+    int i;
+    QString riffChunkId, riffChunkSize, riffChunkFormat,
+            formatChunkId, formatChunkSize, formatAudioFormat, formatNumChannels, formatSampleRate, formatBitRate, formatBlockAlign, formatBitsPerSample,
+            dataChunkId, dataChunkSize, dataChunk;
+
+    riffChunkId         = array.mid(0, 8);
+
+    riffChunkSize       = array.mid(8, 8);
+    riffChunkFormat     = array.mid(16, 8);
+
+    formatChunkId       = array.mid(24, 8);
+    formatChunkSize     = array.mid(32, 8);
+    formatAudioFormat   = array.mid(40, 4);
+    formatNumChannels   = array.mid(44, 4);
+    formatSampleRate    = array.mid(48, 8);
+    formatBitRate      = array.mid(56, 8);
+    formatBlockAlign    = array.mid(64, 4);
+    formatBitsPerSample = array.mid(68, 4);
+
+    dataChunkId         = array.mid(72, 8);
+    dataChunkSize       = array.mid(80, 8);
+    dataChunk           = array.mid(88, array.length());
+
+
+    qDebug() << riffChunkId << "\n";
+    qDebug() << riffChunkSize << "\n";
+    qDebug() << riffChunkFormat << "\n";
+    qDebug() << formatChunkId << "\n";
+    qDebug() << formatChunkSize << "\n";
+    qDebug() << formatAudioFormat << "\n";
+    qDebug() << formatNumChannels << "\n";
+    qDebug() << formatSampleRate << "\n";
+    qDebug() << formatBitRate << "\n";
+    qDebug() << formatBlockAlign << "\n";
+    qDebug() << formatBitsPerSample << "\n";
+    qDebug() << dataChunkId << "\n";
+    qDebug() << dataChunkSize << "\n";
+
+
+
+    string str = string() + char(riffChunkId.mid(0, 2).toDouble());
+
+    QByteArray text = QByteArray::fromHex(array.mid(0, 2));
+
+
+
+    ui->label_riff_value_2->setText(text);
 }
 
-void MainWindow::loadSignalGraph()
-{
-    //
-}
+
 
 
 
