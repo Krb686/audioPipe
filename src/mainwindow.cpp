@@ -48,6 +48,10 @@ void MainWindow::configure(){
     ui->label_format_spacer_5->setText("");
     ui->label_format_spacer_6->setText("");
     ui->label_format_spacer_7->setText("");
+    ui->label_format_spacer_8->setText("");
+
+    ui->label_data_value_1->setText("");
+    ui->label_data_value_2->setText("");
 
 
 }
@@ -177,11 +181,123 @@ void MainWindow::loadHexData(QByteArray array, int bytes)
 
 void MainWindow::loadFormatChunks(QByteArray array)
 {
+    int i;
 
-    QString riffChunkId = QString(array.mid(0,2) + " " + array.mid(2, 2) + " " + array.mid(4, 2) + " " + array.mid(6, 2));
-    ui->label_riff_value_1->setText(riffChunkId);
+    QString riffChunkId, riffChunkSize, riffChunkFormat,
+            formatChunkId, formatChunkSize, formatAudioFormat, formatNumChannels, formatSampleRate, formatByteRate, formatBlockAlign, formatBitsPerSample,
+            dataChunkId, dataChunkSize, dataChunk;
 
-    //QString riffChunkSize = QString(array.mid(8, 2))
+    riffChunkId         = array.mid(0, 8);
+
+    riffChunkSize       = array.mid(8, 8);
+    riffChunkFormat     = array.mid(16, 8);
+
+    formatChunkId       = array.mid(24, 8);
+    formatChunkSize     = array.mid(32, 8);
+    formatAudioFormat   = array.mid(40, 4);
+    formatNumChannels   = array.mid(44, 4);
+    formatSampleRate    = array.mid(48, 8);
+    formatByteRate      = array.mid(56, 8);
+    formatBlockAlign    = array.mid(64, 4);
+    formatBitsPerSample = array.mid(68, 4);
+
+    dataChunkId         = array.mid(72, 8);
+    dataChunkSize       = array.mid(80, 8);
+    dataChunk           = array.mid(88, array.length());
+
+
+    qDebug() << "RiffChunkId " << riffChunkId << "\n";
+    qDebug() << "riffChunkSize " <<riffChunkSize << "\n";
+    qDebug() << "riffChunkFormat " <<riffChunkFormat << "\n";
+    qDebug() << "formatChunkId " <<formatChunkId << "\n";
+    qDebug() << "formatChunkSize " <<formatChunkSize << "\n";
+    qDebug() << "formatAudioFormat " <<formatAudioFormat << "\n";
+    qDebug() << "formatNumChannels " <<formatNumChannels << "\n";
+    qDebug() << "formatSampleRate " <<formatSampleRate << "\n";
+    qDebug() << "formatBitRate " <<formatByteRate << "\n";
+    qDebug() << "formatBlockAlign " <<formatBlockAlign << "\n";
+    qDebug() << "formatBitsPerSample " <<formatBitsPerSample << "\n";
+    qDebug() << "dataChunkId " <<dataChunkId << "\n";
+    qDebug() << "dataChunkSize " <<dataChunkSize << "\n";
+
+
+
+    //string str = string() + char(riffChunkId.mid(0, 2).toDouble());
+
+    //QByteArray riffChunkIdText = QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2));
+    QByteArray q;
+
+    q.append(riffChunkId);
+    QByteArray riffChunkIdText = QByteArray::fromHex(q);
+    ui->label_riff_value_1->setText(riffChunkIdText);
+    q.clear();
+
+    q.append(riffChunkSize);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_riff_value_2->setText(QString::number(i));
+    q.clear();
+
+    q.append(riffChunkFormat);
+    QByteArray riffChunkFormatText = QByteArray::fromHex(q);
+    ui->label_riff_value_3->setText(riffChunkFormatText);
+    q.clear();
+    //===================//
+
+
+    q.append(formatChunkId);
+    QByteArray formatChunkIdText = QByteArray::fromHex(q);
+    ui->label_format_value_1->setText(formatChunkIdText);
+    q.clear();
+
+    q.append(formatChunkSize);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_2->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatAudioFormat);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_3->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatNumChannels);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_4->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatSampleRate);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_5->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatByteRate);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_6->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatBlockAlign);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_7->setText(QString::number(i));
+    q.clear();
+
+    q.append(formatBitsPerSample);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_format_value_8->setText(QString::number(i));
+    q.clear();
+    //============//
+
+    q.append(dataChunkId);
+    QByteArray dataChunkIdText = QByteArray::fromHex(q);
+    ui->label_data_value_1->setText(dataChunkIdText);
+    q.clear();
+
+    q.append(dataChunkSize);
+    i = littleEndianToNumber(q, q.size());
+    ui->label_data_value_2->setText(QString::number(i));
+    q.clear();
+
+
+
+
 
     loadSignalGraph(array);
 
@@ -198,54 +314,27 @@ void MainWindow::loadSignalGraph(QByteArray array)
     scene->addLine(-100, 0, 100, 0, pen);
     scene->addLine(0, -100, 0, 100, pen);
 
-
-    int i;
-    QString riffChunkId, riffChunkSize, riffChunkFormat,
-            formatChunkId, formatChunkSize, formatAudioFormat, formatNumChannels, formatSampleRate, formatBitRate, formatBlockAlign, formatBitsPerSample,
-            dataChunkId, dataChunkSize, dataChunk;
-
-    riffChunkId         = array.mid(0, 8);
-
-    riffChunkSize       = array.mid(8, 8);
-    riffChunkFormat     = array.mid(16, 8);
-
-    formatChunkId       = array.mid(24, 8);
-    formatChunkSize     = array.mid(32, 8);
-    formatAudioFormat   = array.mid(40, 4);
-    formatNumChannels   = array.mid(44, 4);
-    formatSampleRate    = array.mid(48, 8);
-    formatBitRate      = array.mid(56, 8);
-    formatBlockAlign    = array.mid(64, 4);
-    formatBitsPerSample = array.mid(68, 4);
-
-    dataChunkId         = array.mid(72, 8);
-    dataChunkSize       = array.mid(80, 8);
-    dataChunk           = array.mid(88, array.length());
-
-
-    qDebug() << riffChunkId << "\n";
-    qDebug() << riffChunkSize << "\n";
-    qDebug() << riffChunkFormat << "\n";
-    qDebug() << formatChunkId << "\n";
-    qDebug() << formatChunkSize << "\n";
-    qDebug() << formatAudioFormat << "\n";
-    qDebug() << formatNumChannels << "\n";
-    qDebug() << formatSampleRate << "\n";
-    qDebug() << formatBitRate << "\n";
-    qDebug() << formatBlockAlign << "\n";
-    qDebug() << formatBitsPerSample << "\n";
-    qDebug() << dataChunkId << "\n";
-    qDebug() << dataChunkSize << "\n";
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->show();
 
 
 
-    string str = string() + char(riffChunkId.mid(0, 2).toDouble());
+}
 
-    QByteArray text = QByteArray::fromHex(array.mid(0, 2));
+int MainWindow::littleEndianToNumber(QByteArray array, int length)
+{
+    bool ok;
+    QByteArray q;
+
+    //Reverse from little endian to big endian
+    for(int i=0;i<length;i+=2)
+    {
+        q.prepend(array.mid(i, 2));
+    }
 
 
-
-    ui->label_riff_value_2->setText(text);
+    //Convert from base 16
+    return q.toInt(&ok, 16);
 }
 
 

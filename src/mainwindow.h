@@ -27,6 +27,7 @@ private:
     void loadHexData(QByteArray array, int bytes);
     void loadFormatChunks(QByteArray array);
     void loadSignalGraph(QByteArray array);
+    int littleEndianToNumber(QByteArray array, int size);
 
 
 
