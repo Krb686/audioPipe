@@ -16,6 +16,8 @@
 
 using namespace std;
 
+
+
 //Constructor
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -181,129 +183,90 @@ void MainWindow::loadHexData(QByteArray array, int bytes)
 
 void MainWindow::loadFormatChunks(QByteArray array)
 {
-    int i;
+    DataFile wavFile;
 
-    QString riffChunkId, riffChunkSize, riffChunkFormat,
-            formatChunkId, formatChunkSize, formatAudioFormat, formatNumChannels, formatSampleRate, formatByteRate, formatBlockAlign, formatBitsPerSample,
-            dataChunkId, dataChunkSize, dataChunk;
+    wavFile.hexRiffChunkId         = array.mid(0, 8);
 
-    riffChunkId         = array.mid(0, 8);
+    wavFile.hexRiffChunkSize       = array.mid(8, 8);
+    wavFile.hexRiffChunkFormat     = array.mid(16, 8);
 
-    riffChunkSize       = array.mid(8, 8);
-    riffChunkFormat     = array.mid(16, 8);
+    wavFile.hexFormatChunkId       = array.mid(24, 8);
+    wavFile.hexFormatChunkSize     = array.mid(32, 8);
+    wavFile.hexFormatAudioFormat   = array.mid(40, 4);
+    wavFile.hexFormatNumChannels   = array.mid(44, 4);
+    wavFile.hexFormatSampleRate    = array.mid(48, 8);
+    wavFile.hexFormatByteRate      = array.mid(56, 8);
+    wavFile.hexFormatBlockAlign    = array.mid(64, 4);
+    wavFile.hexFormatBitsPerSample = array.mid(68, 4);
 
-    formatChunkId       = array.mid(24, 8);
-    formatChunkSize     = array.mid(32, 8);
-    formatAudioFormat   = array.mid(40, 4);
-    formatNumChannels   = array.mid(44, 4);
-    formatSampleRate    = array.mid(48, 8);
-    formatByteRate      = array.mid(56, 8);
-    formatBlockAlign    = array.mid(64, 4);
-    formatBitsPerSample = array.mid(68, 4);
-
-    dataChunkId         = array.mid(72, 8);
-    dataChunkSize       = array.mid(80, 8);
-    dataChunk           = array.mid(88, array.length());
+    wavFile.hexDataChunkId         = array.mid(72, 8);
+    wavFile.hexDataChunkSize       = array.mid(80, 8);
+    wavFile.hexDataChunk           = array.mid(88, array.length());
 
 
-    qDebug() << "RiffChunkId " << riffChunkId << "\n";
-    qDebug() << "riffChunkSize " <<riffChunkSize << "\n";
-    qDebug() << "riffChunkFormat " <<riffChunkFormat << "\n";
-    qDebug() << "formatChunkId " <<formatChunkId << "\n";
-    qDebug() << "formatChunkSize " <<formatChunkSize << "\n";
-    qDebug() << "formatAudioFormat " <<formatAudioFormat << "\n";
-    qDebug() << "formatNumChannels " <<formatNumChannels << "\n";
-    qDebug() << "formatSampleRate " <<formatSampleRate << "\n";
-    qDebug() << "formatBitRate " <<formatByteRate << "\n";
-    qDebug() << "formatBlockAlign " <<formatBlockAlign << "\n";
-    qDebug() << "formatBitsPerSample " <<formatBitsPerSample << "\n";
-    qDebug() << "dataChunkId " <<dataChunkId << "\n";
-    qDebug() << "dataChunkSize " <<dataChunkSize << "\n";
+    qDebug() << "hexRiffChunkId " << wavFile.hexRiffChunkId << "\n";
+    qDebug() << "hexRiffChunkSize " <<wavFile.hexRiffChunkSize << "\n";
+    qDebug() << "hexRiffChunkFormat " <<wavFile.hexRiffChunkFormat << "\n";
+    qDebug() << "hexFormatChunkId " <<wavFile.hexFormatChunkId << "\n";
+    qDebug() << "hexFormatChunkSize " <<wavFile.hexFormatChunkSize << "\n";
+    qDebug() << "hexFormatAudioFormat " <<wavFile.hexFormatAudioFormat << "\n";
+    qDebug() << "hexFormatNumChannels " <<wavFile.hexFormatNumChannels << "\n";
+    qDebug() << "hexFormatSampleRate " <<wavFile.hexFormatSampleRate << "\n";
+    qDebug() << "formatBitRate " <<wavFile.hexFormatByteRate << "\n";
+    qDebug() << "hexFormatBlockAlign " <<wavFile.hexFormatBlockAlign << "\n";
+    qDebug() << "hexFormatBitsPerSample " <<wavFile.hexFormatBitsPerSample << "\n";
+    qDebug() << "hexDataChunkId " <<wavFile.hexDataChunkId << "\n";
+    qDebug() << "hexDataChunkSize " <<wavFile.hexDataChunkSize << "\n";
 
 
+    wavFile.hexRiffChunkIdText = QByteArray::fromHex(wavFile.hexRiffChunkId);
+    ui->label_riff_value_1->setText(wavFile.hexRiffChunkIdText);
 
-    //string str = string() + char(riffChunkId.mid(0, 2).toDouble());
+    wavFile.riffChunkSize = littleEndianToNumber(wavFile.hexRiffChunkSize, wavFile.hexRiffChunkId.size());
+    ui->label_riff_value_2->setText(QString::number(wavFile.riffChunkSize));
 
-    //QByteArray riffChunkIdText = QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2)) + QByteArray::fromHex(array.mid(0, 2));
-    QByteArray q;
-
-    q.append(riffChunkId);
-    QByteArray riffChunkIdText = QByteArray::fromHex(q);
-    ui->label_riff_value_1->setText(riffChunkIdText);
-    q.clear();
-
-    q.append(riffChunkSize);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_riff_value_2->setText(QString::number(i));
-    q.clear();
-
-    q.append(riffChunkFormat);
-    QByteArray riffChunkFormatText = QByteArray::fromHex(q);
-    ui->label_riff_value_3->setText(riffChunkFormatText);
-    q.clear();
+    wavFile.hexRiffChunkFormatText = QByteArray::fromHex(wavFile.hexRiffChunkFormat);
+    ui->label_riff_value_3->setText(wavFile.hexRiffChunkFormatText);
     //===================//
 
 
-    q.append(formatChunkId);
-    QByteArray formatChunkIdText = QByteArray::fromHex(q);
-    ui->label_format_value_1->setText(formatChunkIdText);
-    q.clear();
+    wavFile.hexFormatChunkIdText = QByteArray::fromHex(wavFile.hexFormatChunkId);
+    ui->label_format_value_1->setText(wavFile.hexFormatChunkIdText);
 
-    q.append(formatChunkSize);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_2->setText(QString::number(i));
-    q.clear();
+    wavFile.formatChunkSize = littleEndianToNumber(wavFile.hexFormatChunkSize, wavFile.hexFormatChunkSize.size());
+    ui->label_format_value_2->setText(QString::number(wavFile.formatChunkSize));
 
-    q.append(formatAudioFormat);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_3->setText(QString::number(i));
-    q.clear();
+    wavFile.formatAudioFormat = littleEndianToNumber(wavFile.hexFormatAudioFormat, wavFile.hexFormatAudioFormat.size());
+    ui->label_format_value_3->setText(QString::number(wavFile.formatAudioFormat));
 
-    q.append(formatNumChannels);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_4->setText(QString::number(i));
-    q.clear();
+    wavFile.formatNumChannels = littleEndianToNumber(wavFile.hexFormatNumChannels, wavFile.hexFormatNumChannels.size());
+    ui->label_format_value_4->setText(QString::number(wavFile.formatNumChannels));
 
-    q.append(formatSampleRate);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_5->setText(QString::number(i));
-    q.clear();
+    wavFile.formatSampleRate = littleEndianToNumber(wavFile.hexFormatSampleRate, wavFile.hexFormatSampleRate.size());
+    ui->label_format_value_5->setText(QString::number(wavFile.formatSampleRate));
 
-    q.append(formatByteRate);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_6->setText(QString::number(i));
-    q.clear();
+    wavFile.formatByteRate = littleEndianToNumber(wavFile.hexFormatByteRate, wavFile.hexFormatByteRate.size());
+    ui->label_format_value_6->setText(QString::number(wavFile.formatByteRate));
 
-    q.append(formatBlockAlign);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_7->setText(QString::number(i));
-    q.clear();
+    wavFile.formatBlockAlign = littleEndianToNumber(wavFile.hexFormatBlockAlign, wavFile.hexFormatBlockAlign.size());
+    ui->label_format_value_7->setText(QString::number(wavFile.formatBlockAlign));
 
-    q.append(formatBitsPerSample);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_format_value_8->setText(QString::number(i));
-    q.clear();
+    wavFile.formatBitsPerSample = littleEndianToNumber(wavFile.hexFormatBitsPerSample, wavFile.hexFormatBitsPerSample.size());
+    ui->label_format_value_8->setText(QString::number(wavFile.formatBitsPerSample));
     //============//
 
-    q.append(dataChunkId);
-    QByteArray dataChunkIdText = QByteArray::fromHex(q);
-    ui->label_data_value_1->setText(dataChunkIdText);
-    q.clear();
+    wavFile.hexDataChunkIdText = QByteArray::fromHex(wavFile.hexDataChunkId);
+    ui->label_data_value_1->setText(wavFile.hexDataChunkIdText);
 
-    q.append(dataChunkSize);
-    i = littleEndianToNumber(q, q.size());
-    ui->label_data_value_2->setText(QString::number(i));
-    q.clear();
+    wavFile.dataChunkSize = littleEndianToNumber(wavFile.hexDataChunkSize, wavFile.hexDataChunkSize.size());
+    ui->label_data_value_2->setText(QString::number(wavFile.dataChunkSize));
 
 
-
-
-
-    loadSignalGraph(array);
+    loadSignalGraph(wavFile);
 
 }
 
-void MainWindow::loadSignalGraph(QByteArray array)
+void MainWindow::loadSignalGraph(DataFile wavFile)
 {
     //Create scene with new keyword from heap so it does not disappear from the stack
     QGraphicsScene *scene = new QGraphicsScene();
@@ -317,6 +280,52 @@ void MainWindow::loadSignalGraph(QByteArray array)
     ui->graphicsView->setScene(scene);
     ui->graphicsView->show();
 
+    //Access wavFile data
+    if(wavFile.hexFormatChunkIdText != "fmt ")
+    {
+        qDebug() << "error";
+        qDebug() << wavFile.hexFormatChunkIdText;
+    }
+    else
+    {
+        if (wavFile.formatAudioFormat != 1)
+        {
+            qDebug() << "error, unsupported audio format.";
+        }
+        else
+        {
+            //continue
+            qDebug() << "good";
+            int i;
+
+            for(i=0;i<wavFile.hexDataChunk.size();i+= wavFile.formatBlockAlign*2)
+            {
+                // read signal
+
+                if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 8)
+                {
+                    QByteArray sample = wavFile.hexDataChunk.mid(i, 2);
+                }
+                else if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 16)
+                {
+                    QByteArray sample = wavFile.hexDataChunk.mid(i, 4);
+                    qDebug() << sample;
+                }
+                else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 8)
+                {
+                    QByteArray leftSample = wavFile.hexDataChunk.mid(i, 2);
+                    QByteArray rightSample = wavFile.hexDataChunk.mid(i+2, 2);
+                }
+                else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 16)
+                {
+                    QByteArray leftSample = wavFile.hexDataChunk.mid(i, 4);
+                    QByteArray rightSample = wavFile.hexDataChunk.mid(i+4, 4);
+                }
+            }
+
+        }
+
+    }
 
 
 }
@@ -336,6 +345,8 @@ int MainWindow::littleEndianToNumber(QByteArray array, int length)
     //Convert from base 16
     return q.toInt(&ok, 16);
 }
+
+
 
 
 
