@@ -271,6 +271,8 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     //Create scene with new keyword from heap so it does not disappear from the stack
     QGraphicsScene *scene = new QGraphicsScene();
 
+    scene->setSceneRect(0, 0, 100, 100);
+
     QPen pen = QPen(Qt::DashLine);
 
     //Draw axis
@@ -285,49 +287,64 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     {
         qDebug() << "error";
         qDebug() << wavFile.hexFormatChunkIdText;
+        exit(-1);
     }
-    else
+
+    if (wavFile.formatAudioFormat != 1)
     {
-        if (wavFile.formatAudioFormat != 1)
-        {
-            qDebug() << "error, unsupported audio format.";
-        }
-        else
-        {
-            //continue
-            qDebug() << "good";
-            int i;
-
-            for(i=0;i<wavFile.hexDataChunk.size();i+= wavFile.formatBlockAlign*2)
-            {
-                // read signal
-
-                if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 8)
-                {
-                    QByteArray sample = wavFile.hexDataChunk.mid(i, 2);
-                }
-                else if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 16)
-                {
-                    QByteArray sample = wavFile.hexDataChunk.mid(i, 4);
-                    qDebug() << sample;
-                }
-                else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 8)
-                {
-                    QByteArray leftSample = wavFile.hexDataChunk.mid(i, 2);
-                    QByteArray rightSample = wavFile.hexDataChunk.mid(i+2, 2);
-                }
-                else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 16)
-                {
-                    QByteArray leftSample = wavFile.hexDataChunk.mid(i, 4);
-                    QByteArray rightSample = wavFile.hexDataChunk.mid(i+4, 4);
-                }
-            }
-
-        }
-
+        qDebug() << "error, unsupported audio format.";
+        exit(-1);
     }
 
+    //continue
+    qDebug() << "good";
+    int i;
+    int lastX = 0;
+    int lastY = 0;
 
+    for(i=0;i<wavFile.hexDataChunk.size();i+= wavFile.formatBlockAlign*2)
+    {
+        // read signal
+
+
+        if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 8)
+        {
+            QByteArray sample = wavFile.hexDataChunk.mid(i, 2);
+        }
+        else if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 16)
+        {
+            QByteArray sample = wavFile.hexDataChunk.mid(i, 4);
+            bool ok;
+            int sampleValue = sample.toInt(&ok, 16);
+
+            //2's complement
+            if(sampleValue > 32767)
+            {
+                sampleValue = (sampleValue - 65535) *-1;
+            }
+            qDebug() << sampleValue;
+
+
+
+
+            scene->addLine(lastX, lastY, i, sampleValue);
+
+            lastX = i;
+            lastY = sampleValue;
+
+
+        }
+        else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 8)
+        {
+            QByteArray leftSample = wavFile.hexDataChunk.mid(i, 2);
+            QByteArray rightSample = wavFile.hexDataChunk.mid(i+2, 2);
+        }
+        else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 16)
+        {
+            QByteArray leftSample = wavFile.hexDataChunk.mid(i, 4);
+            QByteArray rightSample = wavFile.hexDataChunk.mid(i+4, 4);
+        }
+    }
 }
 
 int MainWindow::littleEndianToNumber(QByteArray array, int length)
