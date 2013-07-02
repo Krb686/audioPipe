@@ -19,6 +19,8 @@
 using namespace std;
 
 
+QGraphicsScene *sceneRef;
+
 
 //Constructor
 MainWindow::MainWindow(QWidget *parent) :
@@ -65,6 +67,18 @@ void MainWindow::configure(){
 
 void MainWindow::openFile()
 {
+    if(sceneRef)
+    {
+        delete sceneRef;
+        qDebug() << "deleted!";
+    }
+    else
+    {
+        qDebug() << "no scene!";
+    }
+
+
+
     const QString RIFF = QString("52494646");
     const QString WAVE = QString("57415645");
 
@@ -275,6 +289,7 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
 {
     //Create scene with new keyword from heap so it does not disappear from the stack
     QGraphicsScene *scene = new QGraphicsScene();
+    sceneRef = scene;
 
     QPainterPath *path = new QPainterPath(QPointF(0, 0));
     QPainter *painter = new QPainter(ui->tabWidget_2);
@@ -352,6 +367,9 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     painter->fillPath(*path, Qt::blue);
 
     scene->addPath(*path);
+
+    delete path;
+    delete painter;
 }
 
 int MainWindow::littleEndianToNumber(QByteArray array, int length)
