@@ -20,6 +20,8 @@ public:
 
 public slots:
     void openFile();
+    void zoomOut();
+    void zoomIn();
 
 private:
     Ui::MainWindow *ui;

@@ -13,6 +13,8 @@
 #include <stdio.h>
 #include <sstream>
 #include <string>
+#include <QPainter>
+#include <QPainterPath>
 
 using namespace std;
 
@@ -36,6 +38,8 @@ MainWindow::~MainWindow()
 void MainWindow::configure(){
 
     QObject::connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openFile);
+    QObject::connect(ui->actionZoomIn, &QAction::triggered, this, &MainWindow::zoomIn);
+    QObject::connect(ui->actionZoomOut, &QAction::triggered, this, &MainWindow::zoomOut);
 
     ui->label_riff_spacer_1->setText("");
     ui->label_riff_value_1->setText("");
@@ -55,6 +59,7 @@ void MainWindow::configure(){
     ui->label_data_value_1->setText("");
     ui->label_data_value_2->setText("");
 
+    //setStyleSheet("QLabel { color: qrgba(255, 255, 255, 0); }");
 
 }
 
@@ -271,7 +276,10 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     //Create scene with new keyword from heap so it does not disappear from the stack
     QGraphicsScene *scene = new QGraphicsScene();
 
-    scene->setSceneRect(0, 0, 100, 100);
+    QPainterPath *path = new QPainterPath(QPointF(0, 0));
+    QPainter *painter = new QPainter(ui->tabWidget_2);
+
+    //ui->graphicsView->scale(.5, .35);
 
     QPen pen = QPen(Qt::DashLine);
 
@@ -299,8 +307,7 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     //continue
     qDebug() << "good";
     int i;
-    int lastX = 0;
-    int lastY = 0;
+
 
     for(i=0;i<wavFile.hexDataChunk.size();i+= wavFile.formatBlockAlign*2)
     {
@@ -309,7 +316,11 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
 
         if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 8)
         {
+            bool ok;
             QByteArray sample = wavFile.hexDataChunk.mid(i, 2);
+            int sampleValue = sample.toInt(&ok, 16);
+
+            path->lineTo(i, sampleValue);
         }
         else if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 16)
         {
@@ -320,18 +331,10 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
             //2's complement
             if(sampleValue > 32767)
             {
-                sampleValue = (sampleValue - 65535) *-1;
+                sampleValue = (sampleValue - 65535);
             }
-            qDebug() << sampleValue;
 
-
-
-
-            scene->addLine(lastX, lastY, i, sampleValue);
-
-            lastX = i;
-            lastY = sampleValue;
-
+            path->lineTo(i, sampleValue);
 
         }
         else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 8)
@@ -345,6 +348,10 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
             QByteArray rightSample = wavFile.hexDataChunk.mid(i+4, 4);
         }
     }
+
+    painter->fillPath(*path, Qt::blue);
+
+    scene->addPath(*path);
 }
 
 int MainWindow::littleEndianToNumber(QByteArray array, int length)
@@ -364,11 +371,15 @@ int MainWindow::littleEndianToNumber(QByteArray array, int length)
 }
 
 
+void MainWindow::zoomOut()
+{
+    ui->graphicsView->scale(.9, .9);
+}
 
-
-
-
-
+void MainWindow::zoomIn()
+{
+    ui->graphicsView->scale(1.1, 1.1);
+}
 
 
 
