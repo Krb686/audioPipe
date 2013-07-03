@@ -1,25 +1,17 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <iostream>
 #include <fstream>
 #include <QFileDialog>
-#include <QMessageBox>
-#include <QObject>
-#include <QTranslator>
-#include <QTextStream>
 #include <QDebug>
-#include <fcntl.h>
-#include <io.h>
-#include <stdio.h>
-#include <sstream>
-#include <string>
 #include <QPainter>
 #include <QPainterPath>
-
+#include "getTimeMs64.cpp"
+#include "MyThread.cpp"
 using namespace std;
 
 
 QGraphicsScene *sceneRef;
+int t1, t2;
 
 
 //Constructor
@@ -49,7 +41,7 @@ void MainWindow::configure(){
     ui->label_riff_value_3->setText("");
 
 
-    ui->label_format_spacer_1->setText("");
+    //ui->label_format_spacer_1->setText("");
     ui->label_format_spacer_2->setText("");
     ui->label_format_spacer_3->setText("");
     ui->label_format_spacer_4->setText("");
@@ -61,8 +53,7 @@ void MainWindow::configure(){
     ui->label_data_value_1->setText("");
     ui->label_data_value_2->setText("");
 
-    //setStyleSheet("QLabel { color: qrgba(255, 255, 255, 0); }");
-
+    //setStyleSheet("#label_format_spacer_1 { color: qrgba(255, 255, 255, 0); }");
 }
 
 void MainWindow::openFile()
@@ -70,11 +61,11 @@ void MainWindow::openFile()
     if(sceneRef)
     {
         delete sceneRef;
-        qDebug() << "deleted!";
+        //qDebug() << "deleted!";
     }
     else
     {
-        qDebug() << "no scene!";
+        //qDebug() << "no scene!";
     }
 
 
@@ -87,6 +78,8 @@ void MainWindow::openFile()
     QString contentType, fileType;
 
     QString fileName = QFileDialog::getOpenFileName(0);
+
+    //t1 = GetTimeMs64();
     string filePath = fileName.toStdString();
 
     ifstream file (filePath, ios::in|ios::binary|ios::ate);
@@ -98,7 +91,7 @@ void MainWindow::openFile()
         file.read(memblock, size);
         file.close();
     }
-    qDebug() << "done reading";
+    //qDebug() << "done reading";
 
 
 
@@ -108,17 +101,17 @@ void MainWindow::openFile()
     contentType.append(array.mid(0, 8));
     if(contentType == RIFF)
     {
-        qDebug() << "Content Type: RIFF";
+        //qDebug() << "Content Type: RIFF";
     }
     else
     {
-        qDebug() << "Could not determine content type";
+        //qDebug() << "Could not determine content type";
     }
 
     fileType.append(array.mid(16, 8));
     if(fileType == WAVE)
     {
-        qDebug() << "File Type: WAVE";
+        //qDebug() << "File Type: WAVE";
 
         if(size > 10000)
         {
@@ -134,7 +127,7 @@ void MainWindow::openFile()
     }
     else
     {
-        qDebug() << "Could not determine file type";
+        //qDebug() << "Could not determine file type";
         delete[] memblock;
     }
 
@@ -170,7 +163,7 @@ void MainWindow::loadHexData(QByteArray array, int bytes)
             }
         }
 
-        qDebug() << "loaded all";
+        //qDebug() << "loaded all";
     }
     else
     {
@@ -191,11 +184,11 @@ void MainWindow::loadHexData(QByteArray array, int bytes)
             }
         }
 
-        qDebug() << "loaded 10k";
+        //qDebug() << "loaded 10k";
         s.append("->");
     }
 
-    qDebug() << "done making string";
+    //qDebug() << "done making string";
     ui->textEdit->setText(s);
     loadFormatChunks(array);
 }
@@ -223,6 +216,7 @@ void MainWindow::loadFormatChunks(QByteArray array)
     wavFile.hexDataChunk           = array.mid(88, array.length());
 
 
+    /*
     qDebug() << "hexRiffChunkId " << wavFile.hexRiffChunkId << "\n";
     qDebug() << "hexRiffChunkSize " <<wavFile.hexRiffChunkSize << "\n";
     qDebug() << "hexRiffChunkFormat " <<wavFile.hexRiffChunkFormat << "\n";
@@ -236,7 +230,7 @@ void MainWindow::loadFormatChunks(QByteArray array)
     qDebug() << "hexFormatBitsPerSample " <<wavFile.hexFormatBitsPerSample << "\n";
     qDebug() << "hexDataChunkId " <<wavFile.hexDataChunkId << "\n";
     qDebug() << "hexDataChunkSize " <<wavFile.hexDataChunkSize << "\n";
-
+    */
 
     wavFile.hexRiffChunkIdText = QByteArray::fromHex(wavFile.hexRiffChunkId);
     ui->label_riff_value_1->setText(wavFile.hexRiffChunkIdText);
@@ -281,7 +275,11 @@ void MainWindow::loadFormatChunks(QByteArray array)
     ui->label_data_value_2->setText(QString::number(wavFile.dataChunkSize));
 
 
-    loadSignalGraph(wavFile);
+    //loadSignalGraph(wavFile);
+
+    MyThread *thread1 = new MyThread();
+
+    thread1->
 
 }
 
@@ -292,7 +290,7 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     sceneRef = scene;
 
     QPainterPath *path = new QPainterPath(QPointF(0, 0));
-    QPainter *painter = new QPainter(ui->tabWidget_2);
+    QPainter *painter = new QPainter();
 
     //ui->graphicsView->scale(.5, .35);
 
@@ -308,19 +306,19 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
     //Access wavFile data
     if(wavFile.hexFormatChunkIdText != "fmt ")
     {
-        qDebug() << "error";
-        qDebug() << wavFile.hexFormatChunkIdText;
+        //qDebug() << "error";
+        //qDebug() << wavFile.hexFormatChunkIdText;
         exit(-1);
     }
 
     if (wavFile.formatAudioFormat != 1)
     {
-        qDebug() << "error, unsupported audio format.";
+        //qDebug() << "error, unsupported audio format.";
         exit(-1);
     }
 
     //continue
-    qDebug() << "good";
+    //qDebug() << "good";
     int i;
 
 
@@ -370,6 +368,11 @@ void MainWindow::loadSignalGraph(DataFile wavFile)
 
     delete path;
     delete painter;
+
+    //t2 = GetTimeMs64();
+    //qDebug() << (t2 - t1);
+
+
 }
 
 int MainWindow::littleEndianToNumber(QByteArray array, int length)
@@ -388,10 +391,12 @@ int MainWindow::littleEndianToNumber(QByteArray array, int length)
     return q.toInt(&ok, 16);
 }
 
-
 void MainWindow::zoomOut()
 {
     ui->graphicsView->scale(.9, .9);
+
+    int i;
+
 }
 
 void MainWindow::zoomIn()
@@ -399,6 +404,13 @@ void MainWindow::zoomIn()
     ui->graphicsView->scale(1.1, 1.1);
 }
 
+/*
+void QGraphicsView::paintEvent(QPaintEvent *e)
+{
+    static int count = 0;
+    qDebug("paintEvent, %d", count++);
+}
+*/
 
 
 
