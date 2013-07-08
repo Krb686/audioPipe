@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QPainter>
 #include <QPainterPath>
-#include "getTimeMs64.cpp"
+#include "GetTimeMs64.cpp"
 #include "GraphicsWorker.cpp"
 #include "DataFile.cpp"
 #include <QThread>

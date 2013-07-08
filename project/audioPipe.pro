@@ -14,13 +14,14 @@ TEMPLATE = app
 
 SOURCES += ..\src\main.cpp\
         ..\src\mainwindow.cpp \
-    ../src/getTimeMs64.cpp \
     ../src/GraphicsWorker.cpp \
-    ../src/DataFile.cpp
+    ../src/DataFile.cpp \
+    ../src/GetTimeMs64.cpp
 
 HEADERS  += ..\src\mainwindow.h \
     ../src/GraphicsWorker.h \
-    ../src/DataFile.h
+    ../src/DataFile.h \
+    ../src/AnalyzerCore.h
 
 FORMS    += ..\ui\mainwindow.ui
 
