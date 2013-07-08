@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include "GraphicsWorker.h"
 
 
 
@@ -22,21 +23,17 @@ public slots:
     void openFile();
     void zoomOut();
     void zoomIn();
+    void setScene(QGraphicsScene *scene);
+
+signals:
+    void beginGraphicsWorker();
 
 private:
     Ui::MainWindow *ui;
 
-    struct DataFile{
-        QByteArray hexRiffChunkId, hexRiffChunkSize, hexRiffChunkFormat;
-        QByteArray hexFormatChunkId, hexFormatChunkSize, hexFormatAudioFormat, hexFormatNumChannels, hexFormatSampleRate, hexFormatByteRate, hexFormatBlockAlign, hexFormatBitsPerSample;
-        QByteArray hexDataChunkId, hexDataChunkSize, hexDataChunk;
 
-        QByteArray hexRiffChunkIdText, hexRiffChunkFormatText, hexFormatChunkIdText, hexDataChunkIdText;
 
-        int riffChunkSize;
-        int formatChunkSize, formatAudioFormat, formatNumChannels, formatSampleRate, formatByteRate, formatBlockAlign, formatBitsPerSample;
-        int dataChunkSize;
-    };
+    GraphicsWorker *worker;
 
     void configure();
     void loadHexData(QByteArray array, int bytes);

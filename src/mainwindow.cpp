@@ -6,11 +6,14 @@
 #include <QPainter>
 #include <QPainterPath>
 #include "getTimeMs64.cpp"
-#include "MyThread.cpp"
+#include "GraphicsWorker.cpp"
+#include "DataFile.cpp"
+#include <QThread>
 using namespace std;
 
 
 QGraphicsScene *sceneRef;
+
 int t1, t2;
 
 
@@ -35,6 +38,17 @@ void MainWindow::configure(){
     QObject::connect(ui->actionZoomIn, &QAction::triggered, this, &MainWindow::zoomIn);
     QObject::connect(ui->actionZoomOut, &QAction::triggered, this, &MainWindow::zoomOut);
 
+    QThread *thread = new QThread();
+    GraphicsWorker *worker = new GraphicsWorker();
+    this->worker = worker;
+
+
+    this->worker->moveToThread(thread);
+    thread->start();
+
+    QObject::connect(this, &MainWindow::beginGraphicsWorker, this->worker, &GraphicsWorker::run);
+    QObject::connect(worker, &GraphicsWorker::sceneReady, this, &MainWindow::setScene);
+
     ui->label_riff_spacer_1->setText("");
     ui->label_riff_value_1->setText("");
     ui->label_riff_value_2->setText("");
@@ -58,16 +72,6 @@ void MainWindow::configure(){
 
 void MainWindow::openFile()
 {
-    if(sceneRef)
-    {
-        delete sceneRef;
-        //qDebug() << "deleted!";
-    }
-    else
-    {
-        //qDebug() << "no scene!";
-    }
-
 
 
     const QString RIFF = QString("52494646");
@@ -215,23 +219,6 @@ void MainWindow::loadFormatChunks(QByteArray array)
     wavFile.hexDataChunkSize       = array.mid(80, 8);
     wavFile.hexDataChunk           = array.mid(88, array.length());
 
-
-    /*
-    qDebug() << "hexRiffChunkId " << wavFile.hexRiffChunkId << "\n";
-    qDebug() << "hexRiffChunkSize " <<wavFile.hexRiffChunkSize << "\n";
-    qDebug() << "hexRiffChunkFormat " <<wavFile.hexRiffChunkFormat << "\n";
-    qDebug() << "hexFormatChunkId " <<wavFile.hexFormatChunkId << "\n";
-    qDebug() << "hexFormatChunkSize " <<wavFile.hexFormatChunkSize << "\n";
-    qDebug() << "hexFormatAudioFormat " <<wavFile.hexFormatAudioFormat << "\n";
-    qDebug() << "hexFormatNumChannels " <<wavFile.hexFormatNumChannels << "\n";
-    qDebug() << "hexFormatSampleRate " <<wavFile.hexFormatSampleRate << "\n";
-    qDebug() << "formatBitRate " <<wavFile.hexFormatByteRate << "\n";
-    qDebug() << "hexFormatBlockAlign " <<wavFile.hexFormatBlockAlign << "\n";
-    qDebug() << "hexFormatBitsPerSample " <<wavFile.hexFormatBitsPerSample << "\n";
-    qDebug() << "hexDataChunkId " <<wavFile.hexDataChunkId << "\n";
-    qDebug() << "hexDataChunkSize " <<wavFile.hexDataChunkSize << "\n";
-    */
-
     wavFile.hexRiffChunkIdText = QByteArray::fromHex(wavFile.hexRiffChunkId);
     ui->label_riff_value_1->setText(wavFile.hexRiffChunkIdText);
 
@@ -275,103 +262,16 @@ void MainWindow::loadFormatChunks(QByteArray array)
     ui->label_data_value_2->setText(QString::number(wavFile.dataChunkSize));
 
 
+    this->worker->setDataFile(wavFile);
+
     //loadSignalGraph(wavFile);
+    emit beginGraphicsWorker();
 
-    MyThread *thread1 = new MyThread();
-
-    thread1->
 
 }
 
 void MainWindow::loadSignalGraph(DataFile wavFile)
 {
-    //Create scene with new keyword from heap so it does not disappear from the stack
-    QGraphicsScene *scene = new QGraphicsScene();
-    sceneRef = scene;
-
-    QPainterPath *path = new QPainterPath(QPointF(0, 0));
-    QPainter *painter = new QPainter();
-
-    //ui->graphicsView->scale(.5, .35);
-
-    QPen pen = QPen(Qt::DashLine);
-
-    //Draw axis
-    scene->addLine(-100, 0, 100, 0, pen);
-    scene->addLine(0, -100, 0, 100, pen);
-
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->show();
-
-    //Access wavFile data
-    if(wavFile.hexFormatChunkIdText != "fmt ")
-    {
-        //qDebug() << "error";
-        //qDebug() << wavFile.hexFormatChunkIdText;
-        exit(-1);
-    }
-
-    if (wavFile.formatAudioFormat != 1)
-    {
-        //qDebug() << "error, unsupported audio format.";
-        exit(-1);
-    }
-
-    //continue
-    //qDebug() << "good";
-    int i;
-
-
-    for(i=0;i<wavFile.hexDataChunk.size();i+= wavFile.formatBlockAlign*2)
-    {
-        // read signal
-
-
-        if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 8)
-        {
-            bool ok;
-            QByteArray sample = wavFile.hexDataChunk.mid(i, 2);
-            int sampleValue = sample.toInt(&ok, 16);
-
-            path->lineTo(i, sampleValue);
-        }
-        else if(wavFile.formatNumChannels == 1 && wavFile.formatBitsPerSample == 16)
-        {
-            QByteArray sample = wavFile.hexDataChunk.mid(i, 4);
-            bool ok;
-            int sampleValue = sample.toInt(&ok, 16);
-
-            //2's complement
-            if(sampleValue > 32767)
-            {
-                sampleValue = (sampleValue - 65535);
-            }
-
-            path->lineTo(i, sampleValue);
-
-        }
-        else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 8)
-        {
-            QByteArray leftSample = wavFile.hexDataChunk.mid(i, 2);
-            QByteArray rightSample = wavFile.hexDataChunk.mid(i+2, 2);
-        }
-        else if(wavFile.formatNumChannels == 2 && wavFile.formatBitsPerSample == 16)
-        {
-            QByteArray leftSample = wavFile.hexDataChunk.mid(i, 4);
-            QByteArray rightSample = wavFile.hexDataChunk.mid(i+4, 4);
-        }
-    }
-
-    painter->fillPath(*path, Qt::blue);
-
-    scene->addPath(*path);
-
-    delete path;
-    delete painter;
-
-    //t2 = GetTimeMs64();
-    //qDebug() << (t2 - t1);
-
 
 }
 
@@ -394,9 +294,6 @@ int MainWindow::littleEndianToNumber(QByteArray array, int length)
 void MainWindow::zoomOut()
 {
     ui->graphicsView->scale(.9, .9);
-
-    int i;
-
 }
 
 void MainWindow::zoomIn()
@@ -404,13 +301,15 @@ void MainWindow::zoomIn()
     ui->graphicsView->scale(1.1, 1.1);
 }
 
-/*
-void QGraphicsView::paintEvent(QPaintEvent *e)
+
+
+void MainWindow::setScene(QGraphicsScene *sceneIncoming)
 {
-    static int count = 0;
-    qDebug("paintEvent, %d", count++);
+
+    QGraphicsScene *scene = new QGraphicsScene(sceneIncoming);
+    ui->graphicsView->setScene(sceneIncoming);
+    ui->graphicsView->show();
 }
-*/
 
 
 

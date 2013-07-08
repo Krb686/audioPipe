@@ -15,10 +15,12 @@ TEMPLATE = app
 SOURCES += ..\src\main.cpp\
         ..\src\mainwindow.cpp \
     ../src/getTimeMs64.cpp \
-    ../src/MyThread.cpp
+    ../src/GraphicsWorker.cpp \
+    ../src/DataFile.cpp
 
 HEADERS  += ..\src\mainwindow.h \
-    ../src/MyThread.h
+    ../src/GraphicsWorker.h \
+    ../src/DataFile.h
 
 FORMS    += ..\ui\mainwindow.ui
 
